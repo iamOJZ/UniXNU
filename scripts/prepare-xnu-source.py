@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Restore omitted DriverKit headers from Apple's earlier Darwin 23 source."""
+import base64
 import concurrent.futures
 import hashlib
 import json
@@ -27,6 +28,20 @@ def fetch(url):
         return response.read()
 
 
+def fetch_blob(sha):
+    """Read a git blob through the contents API instead of raw.githubusercontent.com.
+
+    raw.githubusercontent.com is unreachable from some networks while
+    api.github.com works; the blobs endpoint returns the same bytes base64
+    encoded, so the caller's git-blob hash check still proves the content.
+    """
+    url = f'https://api.github.com/repos/apple-oss-distributions/xnu/git/blobs/{sha}'
+    payload = json.loads(fetch(url))
+    if payload.get('encoding') != 'base64':
+        raise ValueError(f'unexpected blob encoding: {payload.get("encoding")}')
+    return base64.b64decode(payload['content'])
+
+
 def restore(entry, destination=DESTINATION, tag=TAG):
     if entry['type'] != 'file' or not entry['name'].endswith('.h'):
         return None
@@ -34,7 +49,7 @@ def restore(entry, destination=DESTINATION, tag=TAG):
     target = destination / name
     if target.exists():
         return None
-    data = fetch(entry['download_url'])
+    data = fetch_blob(entry['sha'])
     digest = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
     if digest != entry['sha']:
         raise ValueError(f'Git blob hash mismatch: {entry["name"]}')

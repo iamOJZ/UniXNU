@@ -224,8 +224,13 @@ def hardware_properties(entry, handles, base=0):
             properties.append((key, struct.pack('<Q', number(cells))))
         elif key in FLAGS:
             if raw:
-                raise Error(f'{entry.name}: {key} is a flag')
-            properties.append((key, b''))
+                # A flag with an explicit value stays a string property. XNU finds the
+                # interrupt controller with SecureDTFindEntry('interrupt-controller', 'master'),
+                # so dropping the value would leave it without a GIC.
+                entry.strings(key)
+                properties.append((key, raw))
+            else:
+                properties.append((key, b''))
         elif key in REFERENCES:
             cells, index = entry.cells(key), 0
             while index < len(cells):
