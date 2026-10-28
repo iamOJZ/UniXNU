@@ -163,6 +163,18 @@ UniXNURun (
     //
     UnicodeSPrint (Ui.Notice, sizeof (Ui.Notice), L"'%s' returned: %r", Entry->Title, Status);
     UniXNULog ("menu: entry %u returned %r", (UINT32)Index, Status);
+    //
+    // Bring-up aid for handsets without a working SimpleTextIn driver (haydn
+    // ships none, so the menu cannot be driven by the volume/power keys): a
+    // failed kernel hand-off would otherwise sit on this screen until someone
+    // force-cycles the phone. Ask for a cold reset so the next boot can be
+    // issued without a manual power cycle.
+    //
+    if (Entry->Type == UniXNUEntryXnu) {
+      UniXNULog ("menu: cold reset after failed xnu boot");
+      gRT->ResetSystem (EfiResetCold, EFI_SUCCESS, 0, NULL);
+      gBS->Stall (1000000);
+    }
     gBS->SetWatchdogTimer (0, 0, 0, NULL);
     Countdown = FALSE;
   }
