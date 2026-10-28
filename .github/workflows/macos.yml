@@ -243,6 +243,45 @@ jobs:
           if [ "$SKIP_SETUP" = true ]; then args+=(--skip-setup); fi
           ./unixnu build payload "${args[@]}"
 
+      - name: Stage the storage ABI artifacts
+        id: abi
+        if: always() && steps.kernel.outcome == 'success'
+        env:
+          WORK: ${{ steps.check.outputs.work }}
+        run: |
+          # The storage ABI binding is the only step that needs a macOS host: it
+          # reads the reference class DWARF size and the prelinked APFS candidate.
+          # Everything it produces is either our own build output (component
+          # archives) or a small JSON describing the audit, so publishing those
+          # lets a Linux host finish the kernel link.
+          staging="$RUNNER_TEMP/abi-artifacts"
+          rm -rf "$staging"; mkdir -p "$staging"
+          tree="$WORK/tree"
+          staged=0
+          stage() {  # stage <source> <name>
+            if [ -f "$1" ]; then
+              cp -p "$1" "$staging/$2"
+              echo "staged $2"
+              staged=$((staged + 1))
+            else
+              echo "missing $1"
+            fi
+          }
+          stage "$tree/build/storage-abi/interface-audit.json" interface-audit.json
+          stage "$tree/build/sheng-ufs/libShengUfs.a" libShengUfs.a
+          stage "$tree/build/virtio-mmio-block/libVirtioMmioBlock.a" libVirtioMmioBlock.a
+          stage "$tree/build/ram-block/libRamBlock.a" libRamBlock.a
+          echo "staged=$staged" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the storage ABI artifacts
+        if: always() && steps.abi.outputs.staged != '' && steps.abi.outputs.staged != '0'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unixnu-${{ steps.check.outputs.board }}-abi-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/abi-artifacts/*
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Collect the text logs
         id: logs
         if: always() && steps.check.outcome == 'success'
