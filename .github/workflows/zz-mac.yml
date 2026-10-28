@@ -9,10 +9,21 @@ permissions:
 jobs:
   mac15:
     runs-on: macos-15
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
-      - name: Say hello
+      - name: Report
         run: |
           echo "macos-15 ok"
           sw_vers
+          ls /Applications | grep -i xcode || true
           xcodebuild -version || true
+
+  mac26:
+    runs-on: macos-26
+    timeout-minutes: 15
+    steps:
+      - name: Report
+        run: |
+          echo "macos-26 ok"
+          sw_vers
+          ls /Applications | grep -i xcode || true
