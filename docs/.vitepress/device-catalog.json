@@ -180,6 +180,11 @@
     "title_zh": "一加 6（enchilada）"
   },
   {
+    "name": "enchilada-keyfan",
+    "title": "OnePlus 6 (keyfan)",
+    "title_zh": "OnePlus 6 (keyfan)"
+  },
+  {
     "name": "enuma",
     "title": "Xiaomi Pad 5 Pro 5G (enuma)",
     "title_zh": "小米平板 5 Pro 5G（enuma）"
@@ -293,6 +298,11 @@
     "name": "haydn",
     "title": "Redmi K40 Pro (haydn)",
     "title_zh": "Redmi K40 Pro（haydn）"
+  },
+  {
+    "name": "haydn-iamojz",
+    "title": "Xiaomi Redmi K40 Pro / K40 Pro+ / Mi 11i (haydn), SM8350 (iamOJZ)",
+    "title_zh": "Xiaomi Redmi K40 Pro / K40 Pro+ / Mi 11i (haydn), SM8350 (iamOJZ)"
   },
   {
     "name": "haydn-xiaomi-haydn-dev",
@@ -410,6 +420,11 @@
     "title_zh": "魅族 20 Classic（m2381）"
   },
   {
+    "name": "m2381-riverkawa271828",
+    "title": "Meizu 20 Classic (RiverKawa271828)",
+    "title_zh": "Meizu 20 Classic (RiverKawa271828)"
+  },
+  {
     "name": "malachite",
     "title": "POCO X7 / Redmi Note 14 Pro 5G (malachite)",
     "title_zh": "POCO X7 / Redmi Note 14 Pro 5G（malachite）"
@@ -425,9 +440,24 @@
     "title_zh": "Redmi Note 9（merlinx）"
   },
   {
+    "name": "mh2lm",
+    "title": "LG G8X ThinQ (LM-G850, mh2lm)",
+    "title_zh": "LG G8X ThinQ (LM-G850, mh2lm)"
+  },
+  {
     "name": "mondrian",
     "title": "Redmi K60 (mondrian/SM8475): UniXNU UEFI bring-up",
     "title_zh": "Redmi K60 (mondrian/SM8475): UniXNU UEFI bring-up"
+  },
+  {
+    "name": "mondrian-wohusaixing",
+    "title": "Redmi K60 (mondrian/SM8475): UniXNU UEFI bring-up (wohusaixing)",
+    "title_zh": "Redmi K60 (mondrian/SM8475): UniXNU UEFI bring-up (wohusaixing)"
+  },
+  {
+    "name": "munch",
+    "title": "Xiaomi Redmi K40S (munch, 22021211RC)",
+    "title_zh": "Xiaomi Redmi K40S (munch, 22021211RC)"
   },
   {
     "name": "myron",
@@ -548,6 +578,11 @@
     "name": "picasso-suzukir1n",
     "title": "Redmi K30 5G targeting iPhone X iOS 16; Darwin 22 ABI and firmware pending (SuzukiR1n)",
     "title_zh": "Redmi K30 5G targeting iPhone X iOS 16; Darwin 22 ABI and firmware pending (SuzukiR1n)"
+  },
+  {
+    "name": "picasso-tselongson",
+    "title": "Redmi K30 5G (tselongson)",
+    "title_zh": "Redmi K30 5G (tselongson)"
   },
   {
     "name": "pipa",
@@ -740,6 +775,11 @@
     "title_zh": "联想小新 Pad 2022（tb128fu）"
   },
   {
+    "name": "tb365fc",
+    "title": "Lenovo Xiaoxin Pad 12.1 (2025), Lenovo TB365FC (board cava_prc_consumer_wifi)",
+    "title_zh": "Lenovo Xiaoxin Pad 12.1 (2025), Lenovo TB365FC (board cava_prc_consumer_wifi)"
+  },
+  {
     "name": "thyme",
     "title": "Xiaomi Mi 10S (thyme)",
     "title_zh": "小米 10S（thyme）"
@@ -805,6 +845,11 @@
     "title_zh": "Redmi K70（vermeer）"
   },
   {
+    "name": "vermeer-ahzcpp",
+    "title": "Redmi K70 (ahzcpp)",
+    "title_zh": "Redmi K70 (ahzcpp)"
+  },
+  {
     "name": "vermeer-xyyyds0106",
     "title": "Redmi K70 (xyyyds0106)",
     "title_zh": "Redmi K70 (xyyyds0106)"
@@ -813,6 +858,11 @@
     "name": "vermeer-yyx2025",
     "title": "Redmi K70 (yyx2025)",
     "title_zh": "Redmi K70 (yyx2025)"
+  },
+  {
+    "name": "wayne",
+    "title": "Xiaomi Mi 6X (2018)",
+    "title_zh": "Xiaomi Mi 6X (2018)"
   },
   {
     "name": "x9",
