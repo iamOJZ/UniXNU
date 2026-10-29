@@ -27,7 +27,14 @@ args = parser.parse_args()
 
 
 def names(path, mode):
-    text = subprocess.check_output(['xcrun', 'nm', '-g', mode, '-j', path], text=True)
+    flags = ['-g', mode, '-j', path]
+    try:
+        text = subprocess.check_output(['xcrun', 'nm', *flags], text=True,
+                                       stderr=subprocess.DEVNULL)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        # On Linux the xcrun shim can resolve to GNU nm, which cannot read Mach-O
+        # objects; llvm-nm takes the same -g/-U/-j flags.
+        text = subprocess.check_output(['llvm-nm', *flags], text=True)
     return {line.strip() for line in text.splitlines() if line.startswith('_')}
 
 

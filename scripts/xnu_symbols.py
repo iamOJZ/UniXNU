@@ -8,7 +8,9 @@ OBJ = 'build/xnu/ios-obj/DEVELOPMENT_ARM64_BCM2837'
 def defined_names(paths, global_only):
     """Defined symbol names of Mach-O files and archives."""
     names = set()
-    paths = [str(path) for path in paths]
+    # A failed compile unlinks its object while the link filelist still names it;
+    # the next kernel pass rebuilds it, so skip what is not on disk yet.
+    paths = [str(path) for path in paths if Path(path).is_file()]
     for start in range(0, len(paths), 200):
         batch = paths[start:start + 200]
         flags = [*(['-g'] if global_only else []), '-U', '-j']
