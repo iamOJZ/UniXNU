@@ -2,6 +2,7 @@
 """Compile the generic platform expert against the actual source-kernel ABI."""
 import argparse
 import json
+import os
 import tomllib
 from pathlib import Path
 import struct
@@ -90,6 +91,15 @@ if component in ('NativeVirtioBlock', 'NativeRamBlock', 'NativeUfs'):
 if component == 'NativeUfs':
     command += ['-I', str(ROOT / 'kits/VerifiedRoot/include'), '-I', str(ROOT / 'drivers/VirtioMmioBlock'),
                 '-DNATIVE_VERIFIED_BLOCK=1', '-DNATIVE_VERIFIED_BLOCK_MULTI_POLICY=1', '-mgeneral-regs-only']
+    if os.environ.get('XNU_UFS_PROBE_ONLY') == '1':
+        # A board without the audited storage ABI cannot build the block/root layer:
+        # IOBlockStorageDevice belongs to the IOStorageFamily kext that the prelinked
+        # kernel already carries, and a second copy in __kernel__ panics on a duplicate
+        # class name. Compile the hardware paths only.
+        command += ['-DHAYDN_UFS_PROBE_ONLY=1']
+    if os.environ.get('XNU_UFS_SM8350') == '1':
+        # SM8350's GCC has no UFS MEM PHY GDSC block; the SM8550 offset aborts the bus.
+        command += ['-DHAYDN_UFS_SM8350=1']
 if component=='NativeOfflineGPU':
     command += ['-I',str(ROOT/'drivers/VirtioMmioConsole')]
 if component in ('NativeLegacyDisplay','NativeHidInput'):
